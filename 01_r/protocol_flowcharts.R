@@ -18,10 +18,9 @@ library(DiagrammeR)
   width = 3.5]
   
   'MEDLINE search' ->
-  'Randomly sort articles to list' ->
-  'Screen articles' ->
-  'Full-text examination (n = 500)' ->
-  'Analysis' ->
+  'Abstrackr screen' ->
+  'Randomly sort articles' ->
+  'Full-text examination (n = 500)'
   
 }")
 
@@ -38,8 +37,8 @@ library(DiagrammeR)
   width = 3.5]
   
   'MEDLINE search' ->
-  'Randomly sort articles to list' ->
-  'Screen articles' ->
+  'Abstrackr' ->
+  'Randomly sort articles' ->
   'Full-text examination (n = 10) (AG)' -> 'Cross-check criteria (AB)'
   'Full-text examination (n = 10) (AG)' -> 'Cross-check examination (NW)'
 }")

@@ -45,6 +45,7 @@ for (i in seq_along(year)) {
   names(journal_rank)[i] <- year[i]
 }
 
+# turn the journal_rank from a list into to a dataframe with the year as a variable
 journal_rank <- journal_rank %>% bind_rows(.id = "year")
 
 # save to file
