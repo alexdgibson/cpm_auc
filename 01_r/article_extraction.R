@@ -23,9 +23,10 @@ quartile_one_issn <- data.frame(issn = c(quartile_one$issn1, quartile_one$issn2)
 # load the updated search filter as string
 search_filter <- "(Validat$ OR Predict$.ti. OR Rule$) OR (Predict$ AND (Outcome$ OR Risk$ OR Model$)) OR ((History OR Variable$ OR Criteria OR Scor$ OR Characteristic$ OR Finding$ OR Factor$) AND (Predict$ OR Model$ OR Decision$ OR Identif$ OR Prognos$)) OR (Decision$ AND (Model$ OR Clinical$ OR Logistic Models/)) OR (Prognostic AND (History OR Variable$ OR Criteria OR Scor$ OR Characteristic$ OR Finding$ OR Factor$ OR Model$)) OR “Stratification” OR “ROC Curve”[Mesh] OR “Discrimination” OR “Discriminate” OR “c-statistic” OR “c statistic” OR “Area under the curve” OR “AUC” OR “Calibration” OR “Indices” OR “Algorithm” OR “Multivariable”"
 
+search_filter_auc <- "auc"
 # creating a date filter to search the last 6 months
 # change these dates upon search date for preceding 6 months
-term <- sprintf('(%s) AND ("2024/01/01"[Date - Publication] : "2024/06/30"[Date - Publication])', search_filter)
+term <- sprintf('(%s) AND ("2024/06/01"[Date - Publication] : "2024/06/30"[Date - Publication])', search_filter_auc)
 
 
 # searching pubmed with search filter (note the number of results 'hits' returned)
@@ -41,17 +42,21 @@ articles$web_history
 # create a list to store the data
 article_summaries <- list()
 
-# iterate through all articles in 50 article search chunks
+# iterate through all articles in y article search chunks
 # change (x,y,z) x for which article to start on, y for total articles to search and z for size of search chunks
 # change y to the number of articles previously stored as 'hits' when searching pubmed
 # it takes ~ 0.05 sec per article, account for this when searching large volumes
-for (seq_start in seq(1, 8000, 50)) {
+
+# set api key first
+set_entrez_key("e50db130d1a7ba3505f0b957a1b859ff6e08")
+
+# get articles
+for (seq_start in seq(1, 42155, 500)) {
   recs <- entrez_summary(db = "pubmed", web_history = articles$web_history,
-                         rettype = "xml", retmax = 50, retstart = seq_start)
-  # add current batch of recs to the list
+                         rettype = "xml", retmax = 500, retstart = seq_start, version = "2.0")
   article_summaries[[length(article_summaries) + 1]] <- recs
-  # print the progress
-  cat(seq_start + 49, "article summaries downloaded\r")
+  cat(seq_start + 499, "article summaries downloaded\r")
+  Sys.sleep(0.1) # pause for 0.1 second between requests as per rentrez rate-limiting documentation
 }
 
 # save the entire list to a file
