@@ -49,4 +49,4 @@ for (i in seq_along(year)) {
 journal_rank <- journal_rank %>% bind_rows(.id = "year")
 
 # save to file
-save(journal_rank, file = "")
+save(journal_rank, file = "02_data/journal_rank.Rdata")

@@ -17,28 +17,36 @@ library(DiagrammeR)
   fixedsize = false,
   width = 3.5]
   
-  'MEDLINE search' ->
-  'Randomly sort articles' ->
-  'Screen' ->
-  'Full-text examination (n = 500)'
+  'PubMed Search' ->
+  'Filter to Q1 Journals' ->
+  'Screen Title and Abstracts' ->
+  'Full-text Data Collection'
   
 }")
 
-
+  
+  
 # creating the pilot collection flowchart
-
+  
   grViz("digraph {
-  graph[layout = dot, 
+  graph[layout = dot,
         rankdir = TB,
         overlap = true,
         fontsize = 10]
   node [shape = rectangle,
   fixedsize = true,
   width = 3.5]
-  
-  'MEDLINE search' ->
-  'Randomly sort articles' ->
-  'Screen' ->
-  'Full-text examination (n = 10) (AG)' -> 'Cross-check criteria (AB)'
-  'Full-text examination (n = 10) (AG)' -> 'Cross-check examination (NW)'
+
+  'PubMed Search' ->
+  'Randomly Sort Articles' ->
+  'Screen 20 Articles' ->
+  'Full-text Data Collection' ->
+  'Potential Protocl Changes'
+
 }")
+  
+
+
+  
+  
+
