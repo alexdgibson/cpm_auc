@@ -1,31 +1,27 @@
-# cpm_auc
- Examination of AUC values in clinical prediction models
+## Examining Questionable Research Practices in Published Clinical Prediction Model Research
 
+This is a README.md file as part of this research project examining questionable research practices in clinical prediction model research
 
+## Metadata
 
-# R scripts and their purpose
+R version 4.5.2 (2025-10-31 ucrt) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
 
-scimago_journal_ranking_extraction.R
-extract the journal rankings from the scimago website so that these journals can be used in the article_extraction.R file
+Primary packages used in the R project:
 
-article_extraction.R
-From the search term, using rentrez package extract all the relevant articles for screening
+[tidyverse (2.0.0), rentrez (1.2.4), openalexR (2.0.2)]
 
-simulate_roc_cruves.R
-simulate 50 different ROC cruves to validate the data extraction of AUC values from the plotdigitizer software
+## File structure of the R and GitHub project:
+### 01_data 
 
-extract_auc_roc.R
-from the simulate_roc_curves.R file, extracting the auc value and comparing against the known value. Also creates histogram plot of the data.
+This folder contains all of the data files and sub folders of data.
 
-pilot_articles.R
-only for finding the articles that are required for the pilot of articles
+### 02_scripts
 
-protocol_flowcharts.R
-all of the flowcharts that are made for this project
+This folder contains all of the R scripts that were used in this research project
 
-all_figures.R
-creating all the associated histograms and bar charts that are required for the article
-also has the expected distributions that would be required for calculating the residuals
+### 03_figures
 
-
+This folder contains all of the figures produced from the R scripts in 02\_scripts
 
