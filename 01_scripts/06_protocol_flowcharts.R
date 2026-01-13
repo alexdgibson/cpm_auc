@@ -17,10 +17,11 @@ library(DiagrammeR)
   fixedsize = false,
   width = 3.5]
   
-  'PubMed Search' ->
-  'Filter to Q1 Journals' ->
-  'Screen Title and Abstracts' ->
-  'Full-text Data Collection'
+  'PubMed Search (n = 63,954)' ->
+  'Filter to Q1 Journals (n = 26,018)' ->
+  'Random Sample of 10% (n = 2,602)' ->
+  'Screen Title and Abstracts (to be done)' ->
+  'Full-text Data Collection (to be done)'
   
 }")
 
