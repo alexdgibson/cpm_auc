@@ -41,10 +41,6 @@ articles_1 <- entrez_search(db = "pubmed", term = term_1, use_history = TRUE)
 # iterate through all articles in y article search chunks
 # it takes ~ 0.05 sec per article, account for this when searching large volumes
 
-# set api key first
-set_entrez_key("e50db130d1a7ba3505f0b957a1b859ff6e08")
-api_key = "e50db130d1a7ba3505f0b957a1b859ff6e08"
-
 # create a list to store the data
 article_summaries <- list()
 
