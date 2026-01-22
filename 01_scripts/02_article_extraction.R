@@ -81,13 +81,9 @@ articles_13 <- entrez_search(db = "pubmed", term = term_dec, use_history = TRUE)
 
 
 # iterate through all articles in y article search chunks
-# change (x,y,z) x for which article to start on, y for total articles to search and z for size of search chunks
-# change y to the number of articles previously stored as 'hits' when searching pubmed
 # it takes ~ 0.05 sec per article, account for this when searching large volumes
 
-# set api key first
-set_entrez_key("e50db130d1a7ba3505f0b957a1b859ff6e08")
-api_key = "e50db130d1a7ba3505f0b957a1b859ff6e08"
+
 
 # create a list to store the data
 article_summaries <- list()
@@ -294,10 +290,10 @@ nrow(screening_journal_data) # total articles in Q!
 save(screening_journal_data, file = "02_data/screening_journal_data.Rdata")
 
 
-
+load(file = "02_data/screening_journal_data.Rdata")
 # take a random sample of the articles to get
 # set seed for reproducibility
-(nrow(screening_journal_data)*0.1) # 2581.2 rounded up to 2582
+(nrow(screening_journal_data)*0.1) # 2602
 set.seed(3625)
 final_screening_journal_data <- slice_sample(screening_journal_data, n = 2602)
 
@@ -318,18 +314,24 @@ for (i in 1:length(as.numeric(final_screening_journal_data$uid))){
   
   # Extract relevant data from the parsed XML
   pmid <- xpathSApply(parsed, "//PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='pubmed']", xmlValue)
+  doi <- xpathSApply(parsed, "//PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='doi']", xmlValue)
+  pmc <- xpathSApply(parsed, "//PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='pmc']", xmlValue)
   title <- xpathSApply(parsed, "//PubmedArticle/MedlineCitation/Article/ArticleTitle", xmlValue)
   abstract_nodes <- xpathSApply(parsed, "//PubmedArticle/MedlineCitation/Article/Abstract/AbstractText", xmlValue)
   abstract <- str_c(abstract_nodes, collapse = " ")
-  pubdate <- xpathSApply(parsed, "//PubmedArticle/MedlineCitation/Article/Journal/JournalIssue/PubDate/Year", xmlValue)
+  epubdate <- xpathSApply(parsed, "//PubmedArticleSet/PubmedArticle/MedlineCitation/Article/ArticleDate[@DateType='Electronic']", xmlValue)
   journal <- xpathSApply(parsed, "//PubmedArticle/MedlineCitation/Article/Journal/Title", xmlValue)
+  affiliation <- xpathSApply(parsed, "//Author/AffiliationInfo/Affiliation", xmlValue)
   
   # Create a data frame of the current article's details
-  temp <- list(pmid = pmid,
+  temp <- list(pmid = ifelse(length(pmid) > 0, pmid, NA),
+               doi = ifelse(length(doi) > 0, doi, NA),
+               pmc = ifelse(length(pmc) > 0, pmc, NA),
                title = ifelse(length(title) > 0, title, NA),
                abstract = ifelse(length(abstract) > 0, abstract, NA),
-               publicationDate = ifelse(length(pubdate) > 0, pubdate, NA),
-               journal = ifelse(length(journal) > 0, journal, NA))
+               epubdate = ifelse(length(epubdate) > 0, epubdate, NA),
+               journal = ifelse(length(journal) > 0, journal, NA),
+               affiliation = ifelse(length(affiliation) > 0, affiliation, NA))
   
   # Append the current article's details to the overall data frame
   pubmed <- append(pubmed, list(temp))
@@ -343,15 +345,12 @@ pubmed_df <- bind_rows(pubmed)
 
 # add a key for Rayyan to process the csv
 pubmed_final <- pubmed_df %>% 
+  filter(epubdate > 20250100 & epubdate < 20251232) # subtract one and add one as its for greater and less than
   mutate(key = as.numeric(1:nrow(pubmed_df))) %>% 
-  select(key, pmid, title, abstract, publicationDate, journal)
+    select(key, pmid, doi, pmc, title, abstract, epubdate, journal, affiliation)
 
 # save the output for screening
 write.csv(pubmed_final, file ="02_data/pubmed_final.csv", row.names = FALSE)
-
-
-
-
 
 
 

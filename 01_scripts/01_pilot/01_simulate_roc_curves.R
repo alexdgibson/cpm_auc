@@ -71,9 +71,12 @@ for(i in 1:length(plot_list)){
 # set an empty dataframe
 auc_df <- data.frame()
 
+# save the auc data frame from set seed simulated ROC curves to check agains the plot digitizer in 02_extract_auc_roc.R
+saveRDS(auc_df, file = "02_data/auc_sim_df.RDS")
+
 # iterate through and take just the auc value
 for (i in 1:length(auc_list)){
-  auc_int <- auc_list[[i]][[3]]
+  auc_int <- auc_list[[i]][[4]]
   auc_df <- rbind(auc_df, as.numeric(auc_int))
 }
 

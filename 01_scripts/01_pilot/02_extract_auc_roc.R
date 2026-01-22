@@ -5,10 +5,13 @@
 library(tidyverse)
 library(bayestestR)
 
+# read in the AUC values from the simulated ROC curves in 01_simulate_roc_curves.R
+auc_df <- readRDS(file = "02_data/auc_sim_df.RDS")
+
 # load in all the extracted data as individual data frames in one list
 # set the path for all csv files
 temp <- list.files(
-  path = "./02_data/roc_auc_validate",
+  path = "./02_data/01_roc_auc_validate",
   pattern = "\\.csv$",
   ignore.case = T,
   full.names = T)
@@ -19,7 +22,7 @@ temp_sorted <- str_sort(temp, numeric = TRUE)
 # import as the list of data frames
 files <- lapply(temp_sorted, read.csv)
 
-# calcuate the AUC value from the extracted data by looping over each df in the list
+# calculate the AUC value from the extracted data by looping over each df in the list
 # set an empty data frame to store values
 derived_auc_df <- data.frame()
 
