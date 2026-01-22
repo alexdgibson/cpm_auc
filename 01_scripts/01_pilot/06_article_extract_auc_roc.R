@@ -66,7 +66,7 @@ roc_auc %>% select(doi, auc, diff, derived_auc) %>% view()
 # plot the data in a histogram
 roc_auc %>% 
   ggplot(aes(x = diff))+
-  geom_histogram(binwidth = 0.01, boundary = 1, colour = "black", fill = "grey60")+
+  geom_histogram(binwidth = 0.005, boundary = 1, colour = "black", fill = "grey60")+
   #scale_x_continuous(breaks = c(-0.25, -0.2, -0.15, -0.1, -0.05, 0 ,0.05, 0.1, 0.15, 0.2, 0.25), limits = c(-0.1, 0.1))+
   theme_classic()+
   theme(text = element_text(size = 16))+
