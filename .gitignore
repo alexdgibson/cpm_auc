@@ -48,5 +48,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# api keys
+# R file scripts
 /01_scripts/99_api.R
+
+
+# R data
+/04_pdfs

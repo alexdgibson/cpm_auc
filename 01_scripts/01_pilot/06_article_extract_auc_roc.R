@@ -61,18 +61,25 @@ roc_auc <- roc_auc %>% mutate(
   diff = auc - derived_auc)
 
 # check the results
-roc_auc %>% select(doi, auc, diff, derived_auc) %>% view()
+roc_auc %>% select(doi, auc, diff, derived_auc)
+
+# save the outcome
+save(roc_auc, file = "02_data/02_pilot/pilot_roc_auc.Rdata")
 
 # plot the data in a histogram
 roc_auc %>% 
   ggplot(aes(x = diff))+
   geom_histogram(binwidth = 0.005, boundary = 1, colour = "black", fill = "grey60")+
-  #scale_x_continuous(breaks = c(-0.25, -0.2, -0.15, -0.1, -0.05, 0 ,0.05, 0.1, 0.15, 0.2, 0.25), limits = c(-0.1, 0.1))+
+  # scale_x_continuous(limits = c(-0.02, 0.03))+
   theme_classic()+
   theme(text = element_text(size = 16))+
-  labs(x = "Difference in Value",
+  labs(x = "Difference in AUC Values",
        y = "Count")+
-  geom_vline(xintercept = 0, linetype = 'dashed')
+  geom_vline(xintercept = 0, linetype = 'dashed')+
+  annotate("text", x = -0.0155, y = 12, label = "ROC AUC Higher")+
+  annotate("text", x = 0.0155, y = 12, label = "Reported AUC Higher")
+
+
 
 # save the histogram plot for appendix
 ggsave(filename = "03_figures/histogram_roc_pilot.png",

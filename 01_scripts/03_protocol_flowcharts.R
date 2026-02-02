@@ -20,6 +20,7 @@ library(DiagrammeR)
   'PubMed Search (n = 63,954)' ->
   'Filter to Q1 Journals (n = 26,018)' ->
   'Random Sample of 10% (n = 2,602)' ->
+  '2025 ePublication Date (n = 2,200)' ->
   'Screen Title and Abstracts (to be done)' ->
   'Full-text Data Collection (to be done)'
   
