@@ -4,6 +4,7 @@
 # load in libraries
 library(tidyverse)
 library(readxl)
+library(splines)
 
 # load in data
 df <- read.csv(file = "02_data/02_pilot/article_data_pilot.csv")
@@ -23,7 +24,7 @@ df %>%
             total_development = sum(study_type == "development"),
             percent_dev = round((sum(study_type == "development")/(length(df$model))),digits = 2)*100,
             total_validation = sum(study_type == "validation"),
-            percent_val = round((sum(study_type == "validation")/(length(df$model))),digits = 2)*100))
+            percent_val = round((sum(study_type == "validation")/(length(df$model))),digits = 2)*100)
 
 
 # number of articles that included a sample size
@@ -38,7 +39,12 @@ df %>%
 
 # number of articles that include one or more ROC curves
 df %>% filter(roc == "yes") %>% count(article) %>% nrow()
-  
+
+
+# number of prediction models per study
+df %>% 
+  summarise(mean_model = round(mean(model), digits = 1),
+            sd_models = round(sd(model), digits = 1))
 
 # Summary stats for AUC value, total, %, mean, SD
 df %>% filter(auc != 0) %>% 
@@ -119,6 +125,9 @@ ggsave(filename = "03_figures/histogram_spec_pilot.png",
        height = 6,
        width = 8,
        dpi = 300)
+
+
+
 
 
 

@@ -28,6 +28,12 @@ open_data_results = mutate(open_data_results,
 # save(open_data_results, file = '02_data/02_pilot/data_code_availability.Rdata')
 
 
+# get summary stats for open access code and data
+open_data_results %>% 
+  summarise(open_data = sum(is_open_data == "TRUE"),
+            open_code = sum(is_open_code == "TRUE"),
+            total_articles = nrow(open_data_results))
+
 
 # check for open access using the roadoi package
 # load in the data
@@ -47,4 +53,5 @@ load(file = '02_data/02_pilot/pilot_open_access_data.Rdata')
 open_access %>% 
   summarise(TRUE_OA = sum(is_oa == "TRUE"),
             FALSE_OA = sum(is_oa == "FALSE"),
-            perc_OA = TRUE_OA/(TRUE_OA+FALSE_OA))
+            perc_OA = TRUE_OA/(TRUE_OA+FALSE_OA),
+            total_articles = nrow(open_access))
