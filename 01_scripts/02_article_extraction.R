@@ -300,6 +300,8 @@ final_screening_journal_data <- slice_sample(screening_journal_data, n = 2602)
 # save screening journal data
 save(final_screening_journal_data, file = "02_data/final_screening_journal_data.Rdata")
 
+# load in data to create csv for Rayyan screening
+load(file = "02_data/final_screening_journal_data.Rdata")
 
 # take the list of articles and return the title and abstract for screening
 pubmed <- list()
@@ -352,5 +354,15 @@ pubmed_final <- pubmed_df %>%
 # save the output for screening
 write.csv(pubmed_final, file ="02_data/pubmed_final.csv", row.names = FALSE)
 
+
+
+# first screening batch of 10%
+pubmed_final <- read.csv(file = "02_data/pubmed_final.csv")
+
+rayyan_screen <- pubmed_final %>% 
+  mutate(key = as.numeric(1:nrow(pubmed_final))) %>% 
+  select(key, pmid, title, journal, abstract, doi)
+
+write.csv(rayyan_screen, file = "02_data/screening_rayyan.csv", row.names = FALSE)
 
 
