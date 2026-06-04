@@ -4,6 +4,7 @@
 library(tidyverse)
 library(splines)
 library(patchwork)
+library(DescTools)
 
 # import the cleaned data from 09_claude_validate.R
 plot_data <- read.csv(file = "02_data/plot_data.csv")
@@ -366,4 +367,68 @@ ggsave(sens_final, file = "03_figures/spec_final.jpg",
 mean(na.omit(plot_data$sens))
 mean(na.omit(plot_data$spec))
 
+
+# plot the sample sizes
+cumulative_data <- plot_data %>%
+  select(sample_size) %>% 
+  na.omit() %>% 
+  count(sample_size) %>%
+  arrange(sample_size) %>%
+  mutate(
+    pct = n / sum(n) * 100,
+    cumulative_pct = cumsum(pct)
+  ) %>%
+  # Ensure x-axis starts at 0
+  bind_rows(tibble(sample_size = 0, n = 0, pct = 0, cumulative_pct = 0), .) %>%
+  arrange(sample_size)
+
+
+fifty_ss <- cumulative_data$sample_size[which.min(abs(cumulative_data$cumulative_pct - 50))]
+ninty_ss <- cumulative_data$sample_size[which.min(abs(cumulative_data$cumulative_pct - 90))]
+
+cumulative_sample_size <- cumulative_data %>%
+  ggplot(aes(x = log(sample_size), y = cumulative_pct))+
+  geom_line()+
+  labs(x = "Sample Size (Log Scale)",
+       y = "Proportion of Models")+
+  scale_y_continuous(breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                     labels = c("0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1"))+
+  annotate("segment", x = log(fifty_ss), xend = log(fifty_ss),
+           y = 0, yend = 50,
+           linetype = "dashed", color = "black")+
+  annotate("segment", x = min(log(cumulative_data$sample_size)), xend = log(fifty_ss),
+           y = 50, yend = 50,
+           linetype = "dashed", color = "black")+
+  annotate("segment", x = log(ninty_ss), xend = log(ninty_ss),
+           y = 0, yend = 90,
+           linetype = "dashed", color = "black")+
+  annotate("segment", x = min(log(cumulative_data$sample_size)), xend = log(ninty_ss),
+           y = 90, yend = 90,
+           linetype = "dashed", color = "black")+
+  theme_bw()+
+  theme(panel.grid.minor = element_blank())
+
+ggsave(cumulative_sample_size, file = "03_figures/cumulative_sample_size.jpg",
+       width = 6,
+       height = 4,
+       dpi = 500)
+
+# gather the summary data of the articles and models
+
+min(na.omit(plot_data$sample_size))
+max(na.omit(plot_data$sample_size))
+median(na.omit(plot_data$sample_size))
+Mode(na.omit(plot_data$sample_size))
+
+# check the % diag and prog
+plot_data %>%
+  group_by(model_type) %>% 
+  summarise(n = n())
+
+# check the % development and validation
+# 18 models were input as prognostic 
+# checked and models are developmental
+plot_data %>%
+  group_by(study_type) %>% 
+  summarise(n = n())
 
