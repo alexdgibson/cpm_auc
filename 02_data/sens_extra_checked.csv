@@ -1,101 +1,101 @@
-,doi,sens,claude,hand,agreement,in_article,location,reason
-1,10_1007_s00234-025-03732-9,100,missing,present,hand_only,TRUE,table,na
-2,10_1007_s00234-025-03732-9,87.9,missing,present,hand_only,TRUE,table,na
-3,10_1016_j_ejrad_2025_112560,67.8,missing,present,hand_only,TRUE,table,na
-4,10_1016_j_cmpb_2025_108979,88,missing,present,hand_only,TRUE,table,lablled as precision
-5,10_2106_jbjs_24_01601,76.1,missing,present,hand_only,TRUE,table,na
-6,10_2106_jbjs_24_01601,88.8,missing,present,hand_only,TRUE,table,na
-7,10_3389_fmed_2025_1471746,60,missing,present,hand_only,TRUE,table,na
-8,10_2106_jbjs_24_01601,65.1,missing,present,hand_only,TRUE,table,na
-9,10_1007_s00234-025-03732-9,94.1,missing,present,hand_only,TRUE,table,na
-10,10_1002_jmri_70183,100,missing,present,hand_only,TRUE,table,na
-11,10_1007_s00234-025-03732-9,71.9,missing,present,hand_only,TRUE,table,na
-12,10_1007_s00431-024-05934-4,66,missing,present,hand_only,TRUE,text,na
-13,10_3389_fnut_2025_1574063,87,missing,present,hand_only,TRUE,table,lablled as precision
-14,10_1016_j_ijmedinf_2025_105901,81.1,missing,present,hand_only,TRUE,table,na
-15,10_2106_jbjs_24_01601,35.6,missing,present,hand_only,TRUE,table,na
-16,10_1002_jmri_29819,84,missing,present,hand_only,TRUE,table,na
-17,10_1016_j_ejrad_2025_112560,55.6,missing,present,hand_only,TRUE,table,na
-18,10_2106_jbjs_24_01601,59.4,missing,present,hand_only,TRUE,table,na
-19,10_2106_jbjs_24_01601,77.8,missing,present,hand_only,TRUE,table,na
-20,10_2106_jbjs_24_01601,66.1,missing,present,hand_only,TRUE,table,na
-21,10_1007_s00234-025-03698-8,90.6,missing,present,hand_only,TRUE,table,na
-22,10_3348_kjr_2024_1202,54.2,missing,present,hand_only,TRUE,table,na
-23,10_1002_jmri_70205,93.1,missing,present,hand_only,TRUE,table,na
-24,10_1016_j_ijmedinf_2025_105901,82.4,missing,present,hand_only,TRUE,table,na
-25,10_2106_jbjs_24_01601,87.5,missing,present,hand_only,TRUE,table,na
-26,10_1002_dad2_70041,56,missing,present,hand_only,TRUE,table,na
-27,10_1007_s00330-025-11981-8,57,missing,present,hand_only,TRUE,table,na
-28,10_3389_fnut_2025_1574063,97,missing,present,hand_only,TRUE,table,lablled as precision
-29,10_2106_jbjs_24_01601,68.6,missing,present,hand_only,TRUE,table,na
-30,10_1002_ccd_31535,82.4,missing,present,hand_only,TRUE,table,na
-31,10_1007_s00234-025-03732-9,74,missing,present,hand_only,TRUE,table,na
-32,10_1007_s00234-025-03698-8,80.8,missing,present,hand_only,TRUE,table,na
-33,10_1016_j_acra_2025_02_046,82.2,missing,present,hand_only,TRUE,table,na
-34,10_1002_lary_70332,70,missing,present,hand_only,TRUE,table,na
-35,10_1007_s00234-025-03698-8,57.7,missing,present,hand_only,TRUE,table,na
-36,10_2106_jbjs_24_01601,69.7,missing,present,hand_only,TRUE,table,na
-37,10_2106_jbjs_24_01601,78,missing,present,hand_only,TRUE,table,na
-38,10_1002_lary_70332,70,missing,present,hand_only,TRUE,table,na
-39,10_2106_jbjs_24_01601,65.1,missing,present,hand_only,TRUE,table,na
-40,10_1007_s00234-025-03698-8,57.7,missing,present,hand_only,TRUE,table,na
-41,10_1007_s00234-025-03732-9,72,missing,present,hand_only,TRUE,table,na
-42,10_3389_fmed_2025_1471746,100,missing,present,hand_only,TRUE,table,na
-43,10_1016_j_ijmedinf_2025_105901,76,missing,present,hand_only,TRUE,table,na
-44,10_3389_fendo_2025_1650116,87.4,missing,present,hand_only,FALSE,table,input specificity instead of sensitivity
-45,10_1002_dad2_70041,57,missing,present,hand_only,TRUE,table,na
-46,10_1007_s00431-024-05934-4,65,missing,present,hand_only,TRUE,figure,na
-47,10_3389_fendo_2025_1650116,76.8,missing,present,hand_only,FALSE,table,input specificity instead of sensitivity
-48,10_1002_dad2_70041,28,missing,present,hand_only,TRUE,table,na
-49,10_2106_jbjs_24_01601,67,missing,present,hand_only,TRUE,table,na
-50,10_2106_jbjs_24_01601,79.8,missing,present,hand_only,TRUE,table,na
-51,10_1002_lary_32149,53.3,present,missing,claude_only,TRUE,text,na
-52,10_3389_fmed_2025_1623850,91,present,missing,claude_only,TRUE,table,na
-53,10_1016_j_ejrad_2025_112272,92.3,present,missing,claude_only,TRUE,table,na
-54,10_1002_mp_17882,70.3,present,missing,claude_only,TRUE,table,na
-55,10_1002_ana_27291,94,present,missing,claude_only,TRUE,text,na
-56,10_1002_1878-0261_70084,93.6,present,missing,claude_only,TRUE,text,na
-57,10_1186_s40644-025-00920-x,93.5,present,missing,claude_only,TRUE,table,na
-58,10_1002_ana_27260,85,present,missing,claude_only,TRUE,text,na
-59,10_1002_dad2_70116,90,present,missing,claude_only,TRUE,text,na
-60,10_3389_fnagi_2025_1504733,87.5,present,missing,claude_only,TRUE,table,na
-61,10_1002_mp_17882,60.4,present,missing,claude_only,TRUE,table,na
-62,10_3348_kjr_2024_1202,85.4,present,missing,claude_only,TRUE,table,na
-63,10_1002_jcla_25159,83.4,present,missing,claude_only,TRUE,table,na
-64,10_1002_mp_17882,84.7,present,missing,claude_only,TRUE,table,na
-65,10_1007_s00234-025-03732-9,70.2,present,missing,claude_only,TRUE,table,na
-66,10_1016_j_ijbiomac_2025_146075,80.3,present,missing,claude_only,FALSE,FALSE,not in article
-67,10_1016_j_jocmr_2025_101933,88.5,present,missing,claude_only,TRUE,table,na
-68,10_2106_jbjs_24_01601,79.8,present,missing,claude_only,TRUE,table,na
-69,10_1002_mp_17650,84.3,present,missing,claude_only,TRUE,table,na
-70,10_1007_s00586-025-09239-4,82.2,present,missing,claude_only,TRUE,text,na
-71,10_1002_mp_17882,58.3,present,missing,claude_only,TRUE,table,na
-72,10_1002_hed_28189,78,present,missing,claude_only,TRUE,text,na
-73,10_3389_fnut_2025_1574063,95,present,missing,claude_only,TRUE,text,in text as recall
-74,10_1016_j_ejrad_2025_112560,67.8,present,missing,claude_only,TRUE,table,na
-75,10_1002_aur_70054,55.4,present,missing,claude_only,TRUE,text,na
-76,10_1016_j_ijbiomac_2025_146075,81.42,present,missing,claude_only,TRUE,text,in text as recall
-77,10_1002_mp_17882,85.4,present,missing,claude_only,TRUE,table,na
-78,10_3389_fnut_2025_1574063,86,present,missing,claude_only,TRUE,table,in table as recall
-79,10_1177_17562864251374903,44.4,present,missing,claude_only,TRUE,text,na
-80,10_1002_jmri_70205,93.1,present,missing,claude_only,TRUE,table,na
-81,10_1016_j_ijbiomac_2025_146075,81.42,present,missing,claude_only,TRUE,table,na
-82,10_1002_jpn3_70201,53.8,present,missing,claude_only,TRUE,table,na
-83,10_1002_mp_17882,88.3,present,missing,claude_only,TRUE,table,na
-84,10_1186_s40644-025-00920-x,1,present,missing,claude_only,TRUE,table,na
-85,10_1016_j_ijbiomac_2025_146075,78.3,present,missing,claude_only,TRUE,table,in table as recall
-86,10_1097_shk_0000000000002569,67.5,present,missing,claude_only,TRUE,text,na
-87,10_1016_j_jocmr_2025_101933,81.4,present,missing,claude_only,TRUE,text,na
-88,10_1002_mp_17882,83.8,present,missing,claude_only,TRUE,table,na
-89,10_3389_fpsyt_2025_1657696,79,present,missing,claude_only,TRUE,text,na
-90,10_1002_jpn3_70201,59.3,present,missing,claude_only,TRUE,table,na
-91,10_1016_j_acra_2025_02_046,82.2,present,missing,claude_only,TRUE,table,na
-92,10_1016_j_jns_2025_123748,93.1,present,missing,claude_only,TRUE,text,na
-93,10_3389_fendo_2025_1698247,90.1,present,missing,claude_only,TRUE,table,na
-94,10_3389_fnagi_2025_1582687,72.7,present,missing,claude_only,TRUE,table,na
-95,10_1002_mp_17882,68.7,present,missing,claude_only,TRUE,table,na
-96,10_1002_ijgo_70408,67.3,present,missing,claude_only,TRUE,table,na
-97,10_1007_s00234-025-03698-8,57.7,present,missing,claude_only,TRUE,table,na
-98,10_1007_s00198-025-07503-3,32,present,missing,claude_only,TRUE,table,na
-99,10_3389_fnagi_2025_1582687,53.9,present,missing,claude_only,TRUE,table,na
-100,10_1186_s40644-025-00920-x,78.6,present,missing,claude_only,TRUE,table,na
+,doi,sens,claude,hand,agreement,in_article,correct,location,reason
+1,10_1007_s00234-025-03732-9,100,missing,present,hand_only,TRUE,TRUE,table,na
+2,10_1007_s00234-025-03732-9,87.9,missing,present,hand_only,TRUE,TRUE,table,na
+3,10_1016_j_ejrad_2025_112560,67.8,missing,present,hand_only,TRUE,TRUE,table,na
+4,10_1016_j_cmpb_2025_108979,88,missing,present,hand_only,TRUE,TRUE,table,lablled as precision
+5,10_2106_jbjs_24_01601,76.1,missing,present,hand_only,TRUE,TRUE,table,na
+6,10_2106_jbjs_24_01601,88.8,missing,present,hand_only,TRUE,TRUE,table,na
+7,10_3389_fmed_2025_1471746,60,missing,present,hand_only,TRUE,TRUE,table,na
+8,10_2106_jbjs_24_01601,65.1,missing,present,hand_only,TRUE,TRUE,table,na
+9,10_1007_s00234-025-03732-9,94.1,missing,present,hand_only,TRUE,TRUE,table,na
+10,10_1002_jmri_70183,100,missing,present,hand_only,TRUE,TRUE,table,na
+11,10_1007_s00234-025-03732-9,71.9,missing,present,hand_only,TRUE,TRUE,table,na
+12,10_1007_s00431-024-05934-4,66,missing,present,hand_only,TRUE,TRUE,text,na
+13,10_3389_fnut_2025_1574063,87,missing,present,hand_only,TRUE,TRUE,table,lablled as precision
+14,10_1016_j_ijmedinf_2025_105901,81.1,missing,present,hand_only,TRUE,TRUE,table,na
+15,10_2106_jbjs_24_01601,35.6,missing,present,hand_only,TRUE,TRUE,table,na
+16,10_1002_jmri_29819,84,missing,present,hand_only,TRUE,TRUE,table,na
+17,10_1016_j_ejrad_2025_112560,55.6,missing,present,hand_only,TRUE,TRUE,table,na
+18,10_2106_jbjs_24_01601,59.4,missing,present,hand_only,TRUE,TRUE,table,na
+19,10_2106_jbjs_24_01601,77.8,missing,present,hand_only,TRUE,TRUE,table,na
+20,10_2106_jbjs_24_01601,66.1,missing,present,hand_only,TRUE,TRUE,table,na
+21,10_1007_s00234-025-03698-8,90.6,missing,present,hand_only,TRUE,TRUE,table,na
+22,10_3348_kjr_2024_1202,54.2,missing,present,hand_only,TRUE,TRUE,table,na
+23,10_1002_jmri_70205,93.1,missing,present,hand_only,TRUE,TRUE,table,na
+24,10_1016_j_ijmedinf_2025_105901,82.4,missing,present,hand_only,TRUE,TRUE,table,na
+25,10_2106_jbjs_24_01601,87.5,missing,present,hand_only,TRUE,TRUE,table,na
+26,10_1002_dad2_70041,56,missing,present,hand_only,TRUE,TRUE,table,na
+27,10_1007_s00330-025-11981-8,57,missing,present,hand_only,TRUE,TRUE,table,na
+28,10_3389_fnut_2025_1574063,97,missing,present,hand_only,TRUE,TRUE,table,lablled as precision
+29,10_2106_jbjs_24_01601,68.6,missing,present,hand_only,TRUE,TRUE,table,na
+30,10_1002_ccd_31535,82.4,missing,present,hand_only,TRUE,TRUE,table,na
+31,10_1007_s00234-025-03732-9,74,missing,present,hand_only,TRUE,TRUE,table,na
+32,10_1007_s00234-025-03698-8,80.8,missing,present,hand_only,TRUE,TRUE,table,na
+33,10_1016_j_acra_2025_02_046,82.2,missing,present,hand_only,TRUE,TRUE,table,na
+34,10_1002_lary_70332,70,missing,present,hand_only,TRUE,TRUE,table,na
+35,10_1007_s00234-025-03698-8,57.7,missing,present,hand_only,TRUE,TRUE,table,na
+36,10_2106_jbjs_24_01601,69.7,missing,present,hand_only,TRUE,TRUE,table,na
+37,10_2106_jbjs_24_01601,78,missing,present,hand_only,TRUE,TRUE,table,na
+38,10_1002_lary_70332,70,missing,present,hand_only,TRUE,TRUE,table,na
+39,10_2106_jbjs_24_01601,65.1,missing,present,hand_only,TRUE,TRUE,table,na
+40,10_1007_s00234-025-03698-8,57.7,missing,present,hand_only,TRUE,TRUE,table,na
+41,10_1007_s00234-025-03732-9,72,missing,present,hand_only,TRUE,TRUE,table,na
+42,10_3389_fmed_2025_1471746,100,missing,present,hand_only,TRUE,TRUE,table,na
+43,10_1016_j_ijmedinf_2025_105901,76,missing,present,hand_only,TRUE,TRUE,table,na
+44,10_3389_fendo_2025_1650116,87.4,missing,present,hand_only,FALSE,FALSE,table,input specificity instead of sensitivity
+45,10_1002_dad2_70041,57,missing,present,hand_only,TRUE,TRUE,table,na
+46,10_1007_s00431-024-05934-4,65,missing,present,hand_only,TRUE,TRUE,figure,na
+47,10_3389_fendo_2025_1650116,76.8,missing,present,hand_only,FALSE,FALSE,table,input specificity instead of sensitivity
+48,10_1002_dad2_70041,28,missing,present,hand_only,TRUE,TRUE,table,na
+49,10_2106_jbjs_24_01601,67,missing,present,hand_only,TRUE,TRUE,table,na
+50,10_2106_jbjs_24_01601,79.8,missing,present,hand_only,TRUE,TRUE,table,na
+51,10_1002_lary_32149,53.3,present,missing,claude_only,TRUE,TRUE,text,na
+52,10_3389_fmed_2025_1623850,91,present,missing,claude_only,TRUE,TRUE,table,na
+53,10_1016_j_ejrad_2025_112272,92.3,present,missing,claude_only,TRUE,TRUE,table,na
+54,10_1002_mp_17882,70.3,present,missing,claude_only,TRUE,TRUE,table,na
+55,10_1002_ana_27291,94,present,missing,claude_only,TRUE,TRUE,text,na
+56,10_1002_1878-0261_70084,93.6,present,missing,claude_only,TRUE,TRUE,text,na
+57,10_1186_s40644-025-00920-x,93.5,present,missing,claude_only,TRUE,TRUE,table,na
+58,10_1002_ana_27260,85,present,missing,claude_only,TRUE,TRUE,text,na
+59,10_1002_dad2_70116,90,present,missing,claude_only,TRUE,TRUE,text,na
+60,10_3389_fnagi_2025_1504733,87.5,present,missing,claude_only,TRUE,TRUE,table,na
+61,10_1002_mp_17882,60.4,present,missing,claude_only,TRUE,TRUE,table,na
+62,10_3348_kjr_2024_1202,85.4,present,missing,claude_only,TRUE,TRUE,table,na
+63,10_1002_jcla_25159,83.4,present,missing,claude_only,TRUE,TRUE,table,na
+64,10_1002_mp_17882,84.7,present,missing,claude_only,TRUE,TRUE,table,na
+65,10_1007_s00234-025-03732-9,70.2,present,missing,claude_only,TRUE,TRUE,table,na
+66,10_1016_j_ijbiomac_2025_146075,80.3,present,missing,claude_only,FALSE,FALSE,FALSE,not in article
+67,10_1016_j_jocmr_2025_101933,88.5,present,missing,claude_only,TRUE,TRUE,table,na
+68,10_2106_jbjs_24_01601,79.8,present,missing,claude_only,TRUE,TRUE,table,na
+69,10_1002_mp_17650,84.3,present,missing,claude_only,TRUE,TRUE,table,na
+70,10_1007_s00586-025-09239-4,82.2,present,missing,claude_only,TRUE,TRUE,text,na
+71,10_1002_mp_17882,58.3,present,missing,claude_only,TRUE,TRUE,table,na
+72,10_1002_hed_28189,78,present,missing,claude_only,TRUE,TRUE,text,na
+73,10_3389_fnut_2025_1574063,95,present,missing,claude_only,TRUE,TRUE,text,in text as recall
+74,10_1016_j_ejrad_2025_112560,67.8,present,missing,claude_only,TRUE,TRUE,table,na
+75,10_1002_aur_70054,55.4,present,missing,claude_only,TRUE,TRUE,text,na
+76,10_1016_j_ijbiomac_2025_146075,81.42,present,missing,claude_only,TRUE,TRUE,text,in text as recall
+77,10_1002_mp_17882,85.4,present,missing,claude_only,TRUE,TRUE,table,na
+78,10_3389_fnut_2025_1574063,86,present,missing,claude_only,TRUE,TRUE,table,in table as recall
+79,10_1177_17562864251374903,44.4,present,missing,claude_only,TRUE,TRUE,text,na
+80,10_1002_jmri_70205,93.1,present,missing,claude_only,TRUE,TRUE,table,na
+81,10_1016_j_ijbiomac_2025_146075,81.42,present,missing,claude_only,TRUE,TRUE,table,na
+82,10_1002_jpn3_70201,53.8,present,missing,claude_only,TRUE,TRUE,table,na
+83,10_1002_mp_17882,88.3,present,missing,claude_only,TRUE,TRUE,table,na
+84,10_1186_s40644-025-00920-x,1,present,missing,claude_only,TRUE,TRUE,table,na
+85,10_1016_j_ijbiomac_2025_146075,78.3,present,missing,claude_only,TRUE,TRUE,table,in table as recall
+86,10_1097_shk_0000000000002569,67.5,present,missing,claude_only,TRUE,TRUE,text,na
+87,10_1016_j_jocmr_2025_101933,81.4,present,missing,claude_only,TRUE,TRUE,text,na
+88,10_1002_mp_17882,83.8,present,missing,claude_only,TRUE,TRUE,table,na
+89,10_3389_fpsyt_2025_1657696,79,present,missing,claude_only,TRUE,TRUE,text,na
+90,10_1002_jpn3_70201,59.3,present,missing,claude_only,TRUE,TRUE,table,na
+91,10_1016_j_acra_2025_02_046,82.2,present,missing,claude_only,TRUE,TRUE,table,na
+92,10_1016_j_jns_2025_123748,93.1,present,missing,claude_only,TRUE,TRUE,text,na
+93,10_3389_fendo_2025_1698247,90.1,present,missing,claude_only,TRUE,TRUE,table,na
+94,10_3389_fnagi_2025_1582687,72.7,present,missing,claude_only,TRUE,TRUE,table,na
+95,10_1002_mp_17882,68.7,present,missing,claude_only,TRUE,TRUE,table,na
+96,10_1002_ijgo_70408,67.3,present,missing,claude_only,TRUE,TRUE,table,na
+97,10_1007_s00234-025-03698-8,57.7,present,missing,claude_only,TRUE,TRUE,table,na
+98,10_1007_s00198-025-07503-3,32,present,missing,claude_only,TRUE,TRUE,table,na
+99,10_3389_fnagi_2025_1582687,53.9,present,missing,claude_only,TRUE,TRUE,table,na
+100,10_1186_s40644-025-00920-x,78.6,present,missing,claude_only,TRUE,TRUE,table,na

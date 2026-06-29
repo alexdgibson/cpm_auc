@@ -3,6 +3,7 @@
 # libraries
 library(tidyverse)
 library(bayestestR)
+library(ggh4x)
 
 # import the data that met inclusion criteria
 plot_data <- read.csv(file = "02_data/plot_data.csv")
@@ -111,8 +112,8 @@ roc_auc %>% arrange(desc(auc_diff))
 # plot the data in a histogram
 labels_df <- data.frame(direction = c("Negative", "Positive"),
                         label = c("Derived AUC higher", "Reported AUC higher"),
-                        x = c(-0.1, 0.1),
-                        y = c(75, 75))
+                        x = c(-0.125, 0.125),
+                        y = c(70, 70))
 
 auc_diff_plot <- roc_auc %>%
   mutate(direction = ifelse(auc_diff < 0, "Negative", "Positive")) %>%
@@ -120,25 +121,26 @@ auc_diff_plot <- roc_auc %>%
   geom_histogram(binwidth = 0.005, boundary = 0, colour = "black", fill = "lightblue") +
   geom_text(data = labels_df,
             aes(x = x, y = y, label = label),
-            size = 5,
+            size = 6,
             inherit.aes = FALSE)+
   scale_x_continuous(breaks = c(-0.2, -0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15, 0.2),
                      limits = c(-0.2, 0.2))+
-  scale_y_continuous(breaks = c(0, 20, 40, 60, 80)) +
+  scale_y_continuous(breaks = c(0, 10, 20, 30, 40, 50, 60, 70),
+                     limits = c(0,70)) +
   theme_classic() +
   theme(text = element_text(size = 16),
         panel.spacing = unit(0, "lines"),
         strip.background = element_blank(),
         strip.text = element_blank())+
   labs(x = "AUC Difference (Reported - Derived)", y = "Count") +
-  geom_vline(xintercept = 0, linetype = "dashed") +
-  facet_wrap(~ ifelse(auc_diff < 0, "Negative", "Positive"),
-             scales = "free_x",
-             nrow = 1)+
-  facetted_pos_scales(x = list(Negative = scale_x_continuous(limits = c(-0.2, 0),
-                                                             breaks = c(-0.2, -0.15, -0.1, -0.05, 0)),
-                               Positive = scale_x_continuous(limits = c(0, 0.2),
-                                                             breaks = c(0, 0.05, 0.1, 0.15, 0.2))))
+  geom_vline(xintercept = 0, linetype = "dashed") #+
+  # facet_wrap(~ ifelse(auc_diff < 0, "Negative", "Positive"),
+  #            scales = "free_x",
+  #            nrow = 1)+
+  # facetted_pos_scales(x = list(Negative = scale_x_continuous(limits = c(-0.2, 0),
+  #                                                            breaks = c(-0.2, -0.15, -0.1, -0.05, 0)),
+  #                              Positive = scale_x_continuous(limits = c(0, 0.2),
+  #                                                            breaks = c(0, 0.05, 0.1, 0.15, 0.2))))
 
 auc_diff_plot
 
@@ -148,6 +150,10 @@ ggsave(plot = auc_diff_plot,
        height = 8,
        dpi = 500,
        filename = "03_figures/auc_diff.jpg")
+
+# check the total number of ROC curves that are > 0.02 or < 0.02
+roc_auc %>% filter(auc_diff > 0.02) %>% nrow()
+roc_auc %>% filter(auc_diff < -0.02) %>% nrow()
 
 
 # check the articles where the difference between reporting and derived is greater 0.01
@@ -186,11 +192,3 @@ roc_auc %>% filter(auc_diff < 0) %>% nrow()
 
 
 
-
-
-
-
-
-
-
-auc_diff_plot

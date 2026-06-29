@@ -1,0 +1,101 @@
+,doi,sample_size,claude,hand,agreement,in_article,correct,location,reason
+1,10_1177_17562864251374903,171,missing,present,hand_only,TRUE,TRUE,text,after exclusion
+2,10_1007_s00198-025-07423-2,153,missing,present,hand_only,TRUE,TRUE,text,is sample size
+3,10_1002_jcla_25159,703,missing,present,hand_only,TRUE,TRUE,text,is sample size
+4,10_1002_dad2_70229,1030,missing,present,hand_only,FALSE,TRUE,text,20% of the full sample size 
+5,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+6,10_1002_ijgo_70609,283,missing,present,hand_only,TRUE,FALSE,text,is 283 diagnoses not total sample
+7,10_1371_journal_pmed_1004665,301,missing,present,hand_only,TRUE,TRUE,text,is the test data
+8,10_1002_btm2_70029,99,missing,present,hand_only,TRUE,TRUE,text,total sample size
+9,10_1002_ijgo_70196,333,missing,present,hand_only,TRUE,FALSE,text,is total pregnancies not total women
+10,10_1002_mp_17882,54,missing,present,hand_only,FALSE,FALSE,na,total was 233 training and 101 validation
+11,10_1002_ana_27260,7577,missing,present,hand_only,FALSE,FALSE,na,unsure
+12,10_1007_s00234-025-03723-w,75,missing,present,hand_only,TRUE,TRUE,text,for validation data
+13,10_1371_journal_pmed_1004665,301,missing,present,hand_only,TRUE,TRUE,text,validation data
+14,10_1002_jmri_70183,60,missing,present,hand_only,TRUE,TRUE,text,total sample size
+15,10_1371_journal_pmed_1004665,301,missing,present,hand_only,TRUE,TRUE,text,validation data
+16,10_2106_jbjs_24_01601,203,missing,present,hand_only,TRUE,TRUE,text,validation data
+17,10_1016_j_atherosclerosis_2025_119212,318,missing,present,hand_only,FALSE,FALSE,na,unsure
+18,10_1002_mp_17882,54,missing,present,hand_only,FALSE,FALSE,na,total was 233 training and 101 validation
+19,10_1038_s41380-025-03192-w,59,missing,present,hand_only,TRUE,TRUE,text,total samle size
+20,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+21,10_1371_journal_pmed_1004665,301,missing,present,hand_only,TRUE,TRUE,text,validation data
+22,10_2106_jbjs_24_01601,203,missing,present,hand_only,TRUE,TRUE,text,validation data
+23,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+24,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+25,10_1002_ueg2_70004,92,missing,present,hand_only,TRUE,FALSE,text,not the total sample size
+26,10_1371_journal_pgen_1011718,11106,missing,present,hand_only,TRUE,FALSE,text,was a separate sample size included into the larger sample
+27,10_1002_mp_17882,54,missing,present,hand_only,FALSE,FALSE,na,total was 233 training and 101 validation
+28,10_1038_s41380-025-03192-w,59,missing,present,hand_only,TRUE,TRUE,text,total samle size
+29,10_1002_jmri_29819,279,missing,present,hand_only,TRUE,FALSE,text,only part of the sample size
+30,10_1002_mp_17882,54,missing,present,hand_only,FALSE,FALSE,na,total was 233 training and 101 validation
+31,10_1016_j_injury_2025_112934,72,missing,present,hand_only,TRUE,TRUE,text,was total sample
+32,10_1021_acs_jcim_4c02130,510,missing,present,hand_only,TRUE,TRUE,table,separate and added together for the reported sample size
+33,10_1371_journal_pmed_1004665,301,missing,present,hand_only,TRUE,TRUE,text,validation data
+34,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+35,10_1038_s41380-025-03192-w,59,missing,present,hand_only,TRUE,TRUE,text,total samle size
+36,10_1021_acs_jcim_4c02130,510,missing,present,hand_only,TRUE,TRUE,table,separate and added together for the reported sample size
+37,10_1007_s00234-025-03582-5,20,missing,present,hand_only,TRUE,FALSE,text,part of the sample size
+38,10_1002_lary_70332,40,missing,present,hand_only,FALSE,FALSE,na,unsure
+39,10_2106_jbjs_24_01601,203,missing,present,hand_only,TRUE,TRUE,text,validation data
+40,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+41,10_2106_jbjs_24_01601,203,missing,present,hand_only,TRUE,TRUE,text,validation data
+42,10_1007_s00234-025-03590-5,93,missing,present,hand_only,FALSE,FALSE,table,unsure
+43,10_1016_j_acra_2025_02_046,230,missing,present,hand_only,TRUE,TRUE,table,development data
+44,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+45,10_1371_journal_pmed_1004665,301,missing,present,hand_only,TRUE,TRUE,text,validation data
+46,10_1002_mp_17672,407,missing,present,hand_only,TRUE,FALSE,text,not the final sample size
+47,10_1016_j_injury_2025_112934,72,missing,present,hand_only,TRUE,TRUE,text,was total sample
+48,10_1002_ijgo_70196,333,missing,present,hand_only,TRUE,FALSE,text,is total pregnancies not total women
+49,10_1007_s00234-025-03732-9,211,missing,present,hand_only,TRUE,TRUE,text,total sample size
+50,10_1002_1878-0261_70084,758,missing,present,hand_only,TRUE,TRUE,text,total sample size
+51,10_3389_fphar_2025_1598756,117,present,missing,claude_only,TRUE,TRUE,text,validation data
+52,10_1007_s10143-025-03719-3,206,present,missing,claude_only,TRUE,TRUE,text,different cohort data
+53,10_1002_mp_17672,222,present,missing,claude_only,TRUE,TRUE,text,final sample
+54,10_1016_j_ejrad_2025_112272,44,present,missing,claude_only,FALSE,FALSE,na,unsure
+55,10_1016_j_jclinepi_2025_111978,4848,present,missing,claude_only,FALSE,FALSE,na,unsure
+56,10_1038_s41380-025-03192-w,42,present,missing,claude_only,FALSE,FALSE,na,unsure
+57,10_2106_jbjs_24_01601,1024,present,missing,claude_only,TRUE,FALSE,text,not final sample size
+58,10_1038_s41380-025-03192-w,39,present,missing,claude_only,FALSE,FALSE,na,unsure
+59,10_3389_fmed_2025_1623850,77,present,missing,claude_only,FALSE,FALSE,na,unsure
+60,10_1007_s00062-025-01593-6,41,present,missing,claude_only,TRUE,TRUE,text,total sample size
+61,10_1002_jcla_25159,84,present,missing,claude_only,FALSE,FALSE,na,unsure
+62,10_1002_jmri_70183,30,present,missing,claude_only,TRUE,FALSE,text,was not total sample size
+63,10_1002_lary_70286,612,present,missing,claude_only,TRUE,TRUE,text,case and control were separate
+64,10_3389_fnut_2025_1574063,7092,present,missing,claude_only,TRUE,TRUE,text,total sample size after SMOTE
+65,10_1002_bcp_70411,602,present,missing,claude_only,TRUE,TRUE,table,total sample size
+66,10_3389_fmed_2025_1623850,77,present,missing,claude_only,FALSE,FALSE,na,unsure
+67,10_1016_j_tranon_2025_102281,324,present,missing,claude_only,TRUE,TRUE,table,development data
+68,10_1002_ana_27291,235,present,missing,claude_only,TRUE,TRUE,table,development data
+69,10_3389_fnut_2025_1574063,7092,present,missing,claude_only,TRUE,TRUE,text,total sample size after SMOTE
+70,10_3389_fendo_2025_1698247,30,present,missing,claude_only,FALSE,FALSE,na,unsure
+71,10_1080_21505594_2025_2534078,68,present,missing,claude_only,FALSE,FALSE,na,unsure
+72,10_1016_j_ijbiomac_2025_146075,1152,present,missing,claude_only,TRUE,TRUE,table,validation data
+73,10_1038_s41380-025-03192-w,42,present,missing,claude_only,FALSE,FALSE,na,unsure
+74,10_3389_fendo_2025_1698247,28,present,missing,claude_only,FALSE,FALSE,na,unsure
+75,10_1007_s00701-025-06566-9,41,present,missing,claude_only,TRUE,TRUE,text,total sample
+76,10_1016_j_tranon_2025_102281,82,present,missing,claude_only,TRUE,TRUE,text,validation data
+77,10_1128_jcm_01186-25,4664,present,missing,claude_only,TRUE,FALSE,text,only part of the sample size
+78,10_1016_j_jns_2025_123748,65,present,missing,claude_only,FALSE,FALSE,na,unsure
+79,10_3389_fendo_2025_1698247,3465,present,missing,claude_only,FALSE,FALSE,na,unsure
+80,10_1002_ohn_70075,475,present,missing,claude_only,TRUE,TRUE,table,validation data
+81,10_3389_fendo_2025_1698247,3465,present,missing,claude_only,FALSE,FALSE,na,unsure
+82,10_3389_fpsyt_2025_1657696,105,present,missing,claude_only,TRUE,FALSE,text,part of the sample size
+83,10_1002_dad2_70229,5149,present,missing,claude_only,TRUE,TRUE,text,total sample size
+84,10_1002_dad2_70229,5149,present,missing,claude_only,TRUE,TRUE,text,total sample size
+85,10_1038_s41380-025-03192-w,39,present,missing,claude_only,FALSE,FALSE,na,unsure
+86,10_1002_1878-0261_70084,639,present,missing,claude_only,TRUE,FALSE,text,part of the sample size
+87,10_1002_ana_27260,576,present,missing,claude_only,TRUE,TRUE,text,total sample size
+88,10_1016_j_ejrad_2025_112272,44,present,missing,claude_only,FALSE,FALSE,na,unsure
+89,10_1007_s00127-025-02857-9,2071,present,missing,claude_only,TRUE,TRUE,text,total sample size
+90,10_1007_s00330-025-11981-8,124,present,missing,claude_only,TRUE,TRUE,text,development data
+91,10_1016_j_atherosclerosis_2025_119212,1270,present,missing,claude_only,TRUE,TRUE,text,total sample size
+92,10_1002_jmri_70183,30,present,missing,claude_only,TRUE,FALSE,text,only part of the sample size
+93,10_1002_mp_17672,222,present,missing,claude_only,TRUE,TRUE,text,final sample
+94,10_2196_58779,1025,present,missing,claude_only,FALSE,FALSE,na,unsure
+95,10_1002_dad2_70229,5149,present,missing,claude_only,TRUE,TRUE,text,total sample size
+96,10_1016_j_injury_2025_112934,71,present,missing,claude_only,TRUE,TRUE,text,total sample size
+97,10_1002_jpn3_70201,1350,present,missing,claude_only,TRUE,FALSE,text,only part of the sample size
+98,10_1002_btm2_70029,50,present,missing,claude_only,FALSE,FALSE,na,unsure
+99,10_1002_jper_70047,146,present,missing,claude_only,TRUE,FALSE,text,total samples from the sample size
+100,10_3389_fcvm_2025_1620664,1954,present,missing,claude_only,TRUE,TRUE,text,validation data

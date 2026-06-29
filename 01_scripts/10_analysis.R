@@ -115,7 +115,7 @@ resid_plot <- ggplot(auc_res_to_plot, aes(x = num, y = resid_raw)) +
   scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
   geom_hline(yintercept = 0, linewidth = 0.5) +
   xlab("AUC Value") +
-  ylab("Residual (observed - expected") +
+  ylab("Residual (observed - expected)") +
   scale_x_continuous(limits = c(49, 101),
                      breaks = c(50, 60, 70, 80, 90, 100),
                      labels = c(0.5, 0.6, 0.7, 0.8, 0.9, 1.0)) +
@@ -182,12 +182,12 @@ sens_plot <- ggplot(data = sens_to_plot, aes(x = num, y = n)) +
            stat = 'identity', width = 1, colour = "black") +
   scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
   geom_line(data = sens_pred_grid, aes(x = num, y = df5), linewidth = 1, linetype = "dashed") +
-  xlab('Sensitivity Value') +
+  xlab('Sensitivity Value (%)') +
   ylab('Frequency') +
   scale_x_continuous(limits = c(0, 101),
                      breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
                      labels = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)) +
-  scale_y_continuous(limits = c(0, 250)) +
+  scale_y_continuous(limits = c(0, 230)) +
   theme_bw() +
   theme(panel.grid.minor = element_blank())
 
@@ -217,8 +217,8 @@ sens_resid_plot <- ggplot(sens_res_to_plot, aes(x = num, y = resid_raw)) +
            stat = "identity", width = 1, colour = "black") +
   scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
   geom_hline(yintercept = 0, linewidth = 0.5) +
-  xlab("Sensitivity Value") +
-  ylab("Residual (observed - expected") +
+  xlab("Sensitivity Value (%)") +
+  ylab("Residual (observed - expected)") +
   scale_x_continuous(limits = c(0, 101),
                      breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
                      labels = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)) +
@@ -285,11 +285,11 @@ spec_plot <- ggplot(data = spec_to_plot, aes(x = num, y = n)) +
            stat = 'identity', width = 1, colour = "black") +
   scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
   geom_line(data = spec_pred_grid, aes(x = num, y = df4), linewidth = 1, linetype = "dashed") +
-  xlab('Specificity Value') +
+  xlab('Specificity Value (%)') +
   ylab('Frequency') +
   scale_x_continuous(limits = c(0, 101),
                      breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)) +
-  scale_y_continuous(limits = c(0, 250)) +
+  scale_y_continuous(limits = c(0, 230)) +
   theme_bw() +
   theme(panel.grid.minor = element_blank())
 
@@ -318,8 +318,8 @@ spec_resid_plot <- ggplot(spec_res_to_plot, aes(x = num, y = resid_raw)) +
            stat = "identity", width = 1, colour = "black") +
   scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
   geom_hline(yintercept = 0, linewidth = 0.5) +
-  xlab("Specificity Value") +
-  ylab("Residual (observed - expected") +
+  xlab("Specificity Value (%)") +
+  ylab("Residual (observed - expected)") +
   scale_x_continuous(limits = c(0, 101),
                      breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
                      labels = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)) +
@@ -356,7 +356,7 @@ ggsave(sens_final, file = "03_figures/sens_final.jpg",
        height = 10,
        dpi = 500)
 
-ggsave(sens_final, file = "03_figures/spec_final.jpg",
+ggsave(spec_final, file = "03_figures/spec_final.jpg",
        width = 8,
        height = 10,
        dpi = 500)
@@ -366,6 +366,9 @@ ggsave(sens_final, file = "03_figures/spec_final.jpg",
 # get the mean sensitivity and specificity values
 mean(na.omit(plot_data$sens))
 mean(na.omit(plot_data$spec))
+
+sd(na.omit(plot_data$sens))
+sd(na.omit(plot_data$spec))
 
 
 # plot the sample sizes
@@ -431,4 +434,57 @@ plot_data %>%
 plot_data %>%
   group_by(study_type) %>% 
   summarise(n = n())
+
+
+
+# get summary data for the AUC value
+plot_data %>% 
+  filter(auc > 0) %>% 
+  group_by(doi) %>% 
+  summarise(n = n()) %>% 
+  mutate(mean = mean(n),
+         median = median(n),
+         iqr_25 = quantile(n, probs = 0.25),
+         iqr_75 = quantile(n, probs = 0.75))
+
+
+
+# plot sample size against AUC
+# create dataframe for the plot
+auc_sample_plot_data = plot_data %>%
+  mutate(auc = as.numeric(auc),
+         auc_cut = cut(auc, breaks = seq(0, 1, 0.01)),
+         num = as.numeric(auc_cut)) %>%
+  group_by(auc_cut, num) %>%
+  summarise(sample = median(sample_size, na.rm = TRUE),
+            n = n(),
+            .groups = "drop")
+
+# plot the smaple size to auc bins
+auc_sample_plot <- auc_sample_plot_data %>% 
+  ggplot(aes(x = num, y = sample)) +
+  geom_point()+
+  geom_smooth(method = "lm", data = auc_sample_plot_data %>% filter(num < 71))+
+  geom_smooth(method = "lm", data = auc_sample_plot_data %>% filter(num > 69))+
+  # geom_smooth(method = "loess", se = FALSE)+
+  scale_x_continuous(limits = c(49, 101),
+                     breaks = c(50, 60, 70, 80, 90, 100),
+                     labels = c(0.5, 0.6, 0.7, 0.8, 0.9, 1.0))+
+  scale_y_continuous(limits = c(0,500))+
+  labs(x = "AUC Value",
+       y = "Median Sample Size")+
+  theme_bw() +
+  theme(panel.grid.minor = element_blank())
+
+
+auc_sample_plot
+
+# save the plot
+ggsave(auc_sample_plot, file = "03_figures/auc_sample_plot.jpg",
+       width = 10,
+       height = 8,
+       dpi = 500)
+
+
+
 

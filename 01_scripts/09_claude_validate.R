@@ -420,11 +420,117 @@ write.csv(spec_extra, "02_data/spec_extra.csv")
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# complete agreement and check for differences in the sample size 
+# Mark presence in each extractor's set
+claude_flag_sample_size <- claude_sub %>%
+  group_by(doi, sample_size) %>%
+  mutate(occ = row_number()) %>% 
+  ungroup()
+
+hand_flag_sample_size <- hand_sub %>%
+  group_by(doi, sample_size) %>%
+  mutate(occ = row_number()) %>% 
+  ungroup()
+
+# Union of all (doi, sample_size) pairs seen by either extractor (within target_dois)
+sample_size_agreement_df <- full_join(
+  claude_flag_sample_size %>% select(doi, sample_size, occ) %>% mutate(claude = "present"),
+  hand_flag_sample_size   %>% select(doi, sample_size, occ) %>% mutate(hand   = "present"),
+  by = c("doi", "sample_size", "occ")
+) %>%
+  mutate(
+    claude = ifelse(is.na(claude), "missing", claude),
+    hand   = ifelse(is.na(hand),   "missing", hand),
+    agreement = case_when(
+      claude == "present" & hand == "present" ~ "both",
+      claude == "present"                     ~ "claude_only",
+      hand   == "present"                     ~ "hand_only",
+      hand   == "missing" & claude == "missing" ~ "both"
+    )
+  )
+
+# Insample_sizet
+sample_size_agreement_df %>% arrange(doi, sample_size) %>% print(n = Inf)
+
+na.omit(sample_size_agreement_df)
+
+table(na.omit(sample_size_agreement_df)$agreement)
+table(sample_size_agreement_df$claude)
+table(sample_size_agreement_df$hand)
+
+# Summary: where do they disagree?
+sample_size_agreement_df %>%
+  count(claude, hand) %>%
+  mutate(pct = round(100 * n / sum(n), 1))
+
+# GWET AC1
+sample_size_agreement <- gwet.ac1.raw(
+  ratings  = sample_size_agreement_df %>% select(claude, hand),
+  weights  = "unweighted",
+  conflev  = 0.95
+)
+
+# check the agreement for sample_size
+sample_size_agreement
+
+
+
+# create a dataframe to check any differences between caldue and hand extraction
+# flag the articles which calude and hand had more sample_size
+sample_size_hand_more <- sample_size_agreement_df %>% filter(hand == "present" & claude == "missing") %>% filter(!is.na(sample_size))
+sample_size_claude_more <- sample_size_agreement_df %>% filter(claude == "present" & hand == "missing") %>% filter(!is.na(sample_size))
+
+# 10 random unique DOIs from sample_size_hand_more
+set.seed(42)  # for reproducibility — remove or change if you want different samples each run
+
+hand_sample_sample_size <- slice_sample(sample_size_hand_more, n = 50)
+
+# 10 random unique DOIs from sample_size_claude_more
+claude_sample_sample_size <- slice_sample(sample_size_claude_more, n = 50)
+
+sample_size_extra <- rbind(hand_sample_sample_size,
+                    claude_sample_sample_size) %>% 
+  select(doi, sample_size, claude, hand, agreement)
+
+# save to check by hand
+write.csv(sample_size_extra, "02_data/sample_size_extra.csv")
+
+
+
+
+
+
+
+
 # check where hand and claude extraction differed for AUC
 auc_checked <- read.csv("02_data/auc_extra_checked.csv")
 
 auc_checked %>% 
-  group_by(agreement, location) %>% 
+  group_by(agreement, correct) %>% 
   summarise(n = n(), .groups = "drop")
 
 
@@ -432,7 +538,7 @@ auc_checked %>%
 sens_checked <- read.csv("02_data/sens_extra_checked.csv")
 
 sens_checked %>% 
-  group_by(agreement, location) %>% 
+  group_by(agreement, correct) %>% 
   summarise(n = n(), .groups = "drop")
 
 
@@ -440,7 +546,14 @@ sens_checked %>%
 spec_checked <- read.csv("02_data/spec_extra_checked.csv")
 
 spec_checked %>% 
-  group_by(agreement, location) %>% 
+  group_by(agreement, correct) %>% 
+  summarise(n = n(), .groups = "drop")
+
+# check where hand and claude extraction differed for sample size
+sample_size_checked <- read.csv("02_data/sample_size_extra_checked.csv")
+
+sample_size_checked %>% 
+  group_by(agreement, correct) %>% 
   summarise(n = n(), .groups = "drop")
 
 
