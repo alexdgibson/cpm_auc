@@ -240,7 +240,7 @@ auc_extra <- rbind(hand_sample_auc,
   select(doi, auc, claude, hand, agreement)
 
 # save to check by hand
-write.csv(auc_extra, "02_data/auc_extra.csv")
+# write.csv(auc_extra, "02_data/auc_extra.csv")
 
 
 
@@ -326,7 +326,7 @@ sens_extra <- rbind(hand_sample_sens,
   select(doi, sens, claude, hand, agreement)
 
 # save to check by hand
-write.csv(sens_extra, "02_data/sens_extra.csv")
+# write.csv(sens_extra, "02_data/sens_extra.csv")
 
 
 
@@ -411,25 +411,7 @@ spec_extra <- rbind(hand_sample_spec,
   select(doi, spec, claude, hand, agreement)
 
 # save to check by hand
-write.csv(spec_extra, "02_data/spec_extra.csv")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# write.csv(spec_extra, "02_data/spec_extra.csv")
 
 
 
@@ -517,7 +499,7 @@ sample_size_extra <- rbind(hand_sample_sample_size,
   select(doi, sample_size, claude, hand, agreement)
 
 # save to check by hand
-write.csv(sample_size_extra, "02_data/sample_size_extra.csv")
+# write.csv(sample_size_extra, "02_data/sample_size_extra.csv")
 
 
 
@@ -569,5 +551,29 @@ plot_data <- claude_extract %>%
          !doi %in% hand_exclude)
 
 # write it to file
-write.csv(plot_data, file = "02_data/plot_data.csv")
+# write.csv(plot_data, file = "02_data/plot_data.csv")
+
+
+
+# compare the auc values of both, manual only and llm only
+auc_compare_box <- auc_agreement_df %>% 
+  ggplot()+
+  geom_boxplot(aes(y = auc))+
+  facet_wrap(~agreement,
+             labeller = as_labeller(c("both" = "Both",
+                                      "claude_only" = "LLM Only",
+                                      "hand_only" = "Manual Only")))+
+  theme_bw() +
+  theme(panel.grid.minor = element_blank())+
+  scale_x_continuous(breaks = NULL)+
+  labs(y = "AUC Value")
+
+# save the plot
+ggsave(plot = auc_compare_box,
+       width = 8,
+       height = 6,
+       dpi = 500,
+       filename = "03_figures/auc_compare_box.jpg")
+
+  
 

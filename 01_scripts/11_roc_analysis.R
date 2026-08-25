@@ -4,6 +4,7 @@
 library(tidyverse)
 library(bayestestR)
 library(ggh4x)
+library(ggbrace)
 
 # import the data that met inclusion criteria
 plot_data <- read.csv(file = "02_data/plot_data.csv")
@@ -111,43 +112,58 @@ roc_auc %>% arrange(desc(auc_diff))
 
 # plot the data in a histogram
 labels_df <- data.frame(direction = c("Negative", "Positive"),
-                        label = c("Derived AUC higher", "Reported AUC higher"),
+                        label = c("Figure AUC higher", "Text AUC higher"),
                         x = c(-0.125, 0.125),
-                        y = c(70, 70))
+                        y = c(57, 57))
 
+# set the colours for +-0.02
+colour_df <- data.frame(range_group = c("Within", "Outside"),
+                        colour = c("grey80", "grey30"))
+
+
+# make the plot
 auc_diff_plot <- roc_auc %>%
   mutate(direction = ifelse(auc_diff < 0, "Negative", "Positive")) %>%
-  ggplot(aes(x = auc_diff))+
-  geom_histogram(binwidth = 0.005, boundary = 0, colour = "black", fill = "lightblue") +
+  ggplot(aes(x = auc_diff, fill = after_stat(ifelse(x >= -0.02 & x <= 0.02, "Within", "Outside")))) +
+  geom_histogram(binwidth = 0.005, boundary = 0, colour = "black") +
   geom_text(data = labels_df,
             aes(x = x, y = y, label = label),
             size = 6,
             inherit.aes = FALSE)+
+  geom_segment(aes(x = -0.02, xend = -0.10, y = 15, yend = 15),
+               inherit.aes = FALSE,
+               arrow = arrow(length = unit(0.25, "cm"), type = "closed"),
+               linewidth = 0.8) +
+  geom_segment(aes(x = 0.02, xend = 0.10, y = 15, yend = 15),
+               inherit.aes = FALSE,
+               arrow = arrow(length = unit(0.25, "cm"), type = "closed"),
+               linewidth = 0.8) +
+  annotate("text", x = 0.06, y = 18,
+           label = "Misreported", size = 5) +
+  annotate("text", x = -0.06, y = 18,
+           label = "Misreported", size = 5) +
   scale_x_continuous(breaks = c(-0.2, -0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15, 0.2),
                      limits = c(-0.2, 0.2))+
   scale_y_continuous(breaks = c(0, 10, 20, 30, 40, 50, 60, 70),
-                     limits = c(0,70)) +
+                     limits = c(0,62)) +
+  scale_fill_manual(values = setNames(colour_df$colour, colour_df$range_group)) +
   theme_classic() +
-  theme(text = element_text(size = 16),
+  theme(text = element_text(size = 18),
         panel.spacing = unit(0, "lines"),
         strip.background = element_blank(),
-        strip.text = element_blank())+
-  labs(x = "AUC Difference (Reported - Derived)", y = "Count") +
-  geom_vline(xintercept = 0, linetype = "dashed") #+
-  # facet_wrap(~ ifelse(auc_diff < 0, "Negative", "Positive"),
-  #            scales = "free_x",
-  #            nrow = 1)+
-  # facetted_pos_scales(x = list(Negative = scale_x_continuous(limits = c(-0.2, 0),
-  #                                                            breaks = c(-0.2, -0.15, -0.1, -0.05, 0)),
-  #                              Positive = scale_x_continuous(limits = c(0, 0.2),
-  #                                                            breaks = c(0, 0.05, 0.1, 0.15, 0.2))))
+        strip.text = element_blank(),
+        legend.position = "none")+
+  labs(x = "AUC Difference (text minus figure)", y = "Count") +
+  geom_vline(xintercept = 0.02, linetype = "dashed", alpha = 0.4)+
+  geom_vline(xintercept = -0.02, linetype = "dashed", alpha = 0.4)
+
 
 auc_diff_plot
 
 # save the plot
 ggsave(plot = auc_diff_plot,
-       width = 12,
-       height = 8,
+       width = 8,
+       height = 6,
        dpi = 500,
        filename = "03_figures/auc_diff.jpg")
 

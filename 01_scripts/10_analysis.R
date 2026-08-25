@@ -5,6 +5,8 @@ library(tidyverse)
 library(splines)
 library(patchwork)
 library(DescTools)
+library(mgcv)
+library(lme4)
 
 # import the cleaned data from 09_claude_validate.R
 plot_data <- read.csv(file = "02_data/plot_data.csv")
@@ -43,42 +45,71 @@ length(unique(auc_ci_check$doi))
 table(auc_ci_check$ci_check)
 
 
-
+# # AUC in single units
+# auc_to_plot = mutate(plot_data, 
+#                      auc = as.numeric(auc),
+#                      auc_cut = cut(auc, breaks = seq(0,1,0.01)),
+#                      num = as.numeric(auc_cut)) %>%
+#   group_by(auc_cut, num) %>%
+#   tally() %>%
+#   ungroup()
 
 # AUC in single units
 auc_to_plot = mutate(plot_data, 
                  auc = as.numeric(auc),
                  auc_cut = cut(auc, breaks = seq(0,1,0.01)),
-                 num = as.numeric(auc_cut)) %>%
-  group_by(auc_cut, num) %>%
-  tally() %>%
-  ungroup()
+                 bin_n = as.numeric(auc_cut),
+                 doi = as.factor(doi)) %>%
+  group_by(auc_cut) %>% 
+  ungroup() %>% 
+  select(doi, auc, auc_cut, bin_n) %>% filter(bin_n >49) %>% na.omit()
+
+# check how many unique articles are at each bin
+auc_to_plot %>%
+  group_by(bin_n) %>%
+  mutate(n = n_distinct(doi)) %>%
+  distinct(bin_n, .keep_all = TRUE) %>% 
+  ggplot(aes(x = bin_n, y = n))+
+  geom_col()
 
 
 # Fit the three models
 fit2 <- glm(n ~ ns(num, df = 2), data = auc_to_plot, family = poisson)
 fit3 <- glm(n ~ ns(num, df = 3), data = auc_to_plot, family = poisson)
 fit4 <- glm(n ~ ns(num, df = 4), data = auc_to_plot, family = poisson)
+fit_spline_2 <- gam(n ~ s(num, bs = "ps", k = 4), family = poisson, data = auc_to_plot)
+fit_spline_3 <- gam(n ~ s(num, bs = "ps", k = 5), family = poisson, data = auc_to_plot)
+fit_spline_4 <- gam(n ~ s(num, bs = "ps", k = 6), family = poisson, data = auc_to_plot)
 
 # Build a prediction grid
 pred_grid <- data.frame(num = seq(50, 100, length.out = 200))
 pred_grid$df2 <- predict(fit2, newdata = pred_grid, type = "response")
 pred_grid$df3 <- predict(fit3, newdata = pred_grid, type = "response")
 pred_grid$df4 <- predict(fit4, newdata = pred_grid, type = "response")
+pred_grid$df5 <- predict(fit_spline_2, newdata = pred_grid, type = "response")
+pred_grid$df6 <- predict(fit_spline_3, newdata = pred_grid, type = "response")
+pred_grid$df7 <- predict(fit_spline_4, newdata = pred_grid, type = "response")
+pred_grif$df8 <- predict(fit_ri, newdata = pred_grid, type = "response")
+
+
+
+# fitting the data with random intercept for nested data (article)
+fit_ri <- gam(bin_n ~ s(auc, bs = "ps", k = 4) + s(doi, bs = "re"), family = poisson, data = auc_to_plot, method = "REML")
+
 
 # check the fit of the three splines
-round(AIC(fit2, fit3, fit4), digits = 1)
+round(AIC(fit2, fit3, fit4, fit_spline_2, fit_spline_3, fit_spline_4, fit_ri), digits = 1)
 
 # Reshape to long format so we get a legend
-pred_long <- pivot_longer(pred_grid, cols = c(df2, df3, df4),
+pred_long <- pivot_longer(pred_grid, cols = c(df2, df3, df4, df5, df6, df7),
                           names_to = "df", values_to = "fit")
 
 # make the auc distribution plot
 auc_plot <- ggplot(data = auc_to_plot, aes(x = num, y = n)) +
   geom_bar(aes(fill = num %in% c(50, 60, 70, 80, 90, 100)),
            stat = 'identity', width = 1, colour = "black") +
-  scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
-  geom_line(data = pred_grid, aes(x = num, y = df4), linewidth = 1, linetype = "dashed") +
+  scale_fill_manual(values = c("TRUE" = "#B52B12", "FALSE" = "#FFBDAD"), guide = "none") +
+  geom_line(data = pred_grid, aes(x = num, y = df6), linewidth = 1, linetype = "dashed") +
   xlab('AUC Value') +
   ylab('Frequency') +
   scale_x_continuous(limits = c(49, 101),
@@ -112,14 +143,14 @@ auc_res_to_plot <- auc_to_plot %>%
 resid_plot <- ggplot(auc_res_to_plot, aes(x = num, y = resid_raw)) +
   geom_bar(aes(fill = num %in% c(50, 60, 70, 80, 90, 100)),
            stat = "identity", width = 1, colour = "black") +
-  scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
+  scale_fill_manual(values = c("TRUE" = "#B52B12", "FALSE" = "#FFBDAD"), guide = "none") +
   geom_hline(yintercept = 0, linewidth = 0.5) +
   xlab("AUC Value") +
   ylab("Residual (observed - expected)") +
   scale_x_continuous(limits = c(49, 101),
                      breaks = c(50, 60, 70, 80, 90, 100),
                      labels = c(0.5, 0.6, 0.7, 0.8, 0.9, 1.0)) +
-  scale_y_continuous(limits = c(-80, 80)) +
+  scale_y_continuous(limits = c(-60, 60)) +
   theme_bw() +
   theme(panel.grid.minor = element_blank())
 
@@ -180,7 +211,7 @@ sens_pred_long <- pivot_longer(sens_pred_grid, cols = c(df2, df3, df4),
 sens_plot <- ggplot(data = sens_to_plot, aes(x = num, y = n)) +
   geom_bar(aes(fill = num %in% c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)),
            stat = 'identity', width = 1, colour = "black") +
-  scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
+  scale_fill_manual(values = c("TRUE" = "#346E29", "FALSE" = "#AED9A7"), guide = "none") +
   geom_line(data = sens_pred_grid, aes(x = num, y = df5), linewidth = 1, linetype = "dashed") +
   xlab('Sensitivity Value (%)') +
   ylab('Frequency') +
@@ -215,7 +246,7 @@ sens_res_to_plot <- sens_to_plot %>%
 sens_resid_plot <- ggplot(sens_res_to_plot, aes(x = num, y = resid_raw)) +
   geom_bar(aes(fill = num %in% c(50, 60, 70, 80, 90, 100)),
            stat = "identity", width = 1, colour = "black") +
-  scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
+  scale_fill_manual(values = c("TRUE" = "#346E29", "FALSE" = "#AED9A7"), guide = "none") +
   geom_hline(yintercept = 0, linewidth = 0.5) +
   xlab("Sensitivity Value (%)") +
   ylab("Residual (observed - expected)") +
@@ -283,7 +314,7 @@ spec_pred_long <- pivot_longer(spec_pred_grid, cols = c(df2, df3, df4),
 spec_plot <- ggplot(data = spec_to_plot, aes(x = num, y = n)) +
   geom_bar(aes(fill = num %in% c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)),
            stat = 'identity', width = 1, colour = "black") +
-  scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
+  scale_fill_manual(values = c("TRUE" = "#2A5880", "FALSE" = "lightblue"), guide = "none") +
   geom_line(data = spec_pred_grid, aes(x = num, y = df4), linewidth = 1, linetype = "dashed") +
   xlab('Specificity Value (%)') +
   ylab('Frequency') +
@@ -316,7 +347,7 @@ spec_res_to_plot <- spec_to_plot %>%
 spec_resid_plot <- ggplot(spec_res_to_plot, aes(x = num, y = resid_raw)) +
   geom_bar(aes(fill = num %in% c(50, 60, 70, 80, 90, 100)),
            stat = "identity", width = 1, colour = "black") +
-  scale_fill_manual(values = c("TRUE" = "navy", "FALSE" = "lightblue"), guide = "none") +
+  scale_fill_manual(values = c("TRUE" = "#2A5880", "FALSE" = "lightblue"), guide = "none") +
   geom_hline(yintercept = 0, linewidth = 0.5) +
   xlab("Specificity Value (%)") +
   ylab("Residual (observed - expected)") +
