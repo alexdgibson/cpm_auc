@@ -45,31 +45,34 @@ length(unique(auc_ci_check$doi))
 table(auc_ci_check$ci_check)
 
 
-# # AUC in single units
-# auc_to_plot = mutate(plot_data, 
-#                      auc = as.numeric(auc),
-#                      auc_cut = cut(auc, breaks = seq(0,1,0.01)),
-#                      num = as.numeric(auc_cut)) %>%
-#   group_by(auc_cut, num) %>%
-#   tally() %>%
-#   ungroup()
+# AUC in single units
+auc_to_plot2 = mutate(plot_data,
+                     auc = as.numeric(auc),
+                     auc_cut = cut(auc, breaks = seq(0,1,0.01)),
+                     num = as.numeric(auc_cut)) %>%
+  group_by(auc_cut, num) %>%
+  tally() %>%
+  ungroup()
 
 # AUC in single units
 auc_to_plot = mutate(plot_data, 
                  auc = as.numeric(auc),
                  auc_cut = cut(auc, breaks = seq(0,1,0.01)),
-                 bin_n = as.numeric(auc_cut),
-                 doi = as.factor(doi)) %>%
-  group_by(auc_cut) %>% 
+                 num = as.numeric(auc_cut),
+                 doi = factor(doi)) %>%
+  group_by(num) %>% 
+  mutate(n = n()) %>% 
   ungroup() %>% 
-  select(doi, auc, auc_cut, bin_n) %>% filter(bin_n >49) %>% na.omit()
+  select(doi, auc, auc_cut, num, n) %>%
+  filter(num >49) %>%
+  na.omit()
 
 # check how many unique articles are at each bin
 auc_to_plot %>%
-  group_by(bin_n) %>%
+  group_by(num) %>%
   mutate(n = n_distinct(doi)) %>%
-  distinct(bin_n, .keep_all = TRUE) %>% 
-  ggplot(aes(x = bin_n, y = n))+
+  distinct(num, .keep_all = TRUE) %>% 
+  ggplot(aes(x = num, y = n))+
   geom_col()
 
 
@@ -80,6 +83,17 @@ fit4 <- glm(n ~ ns(num, df = 4), data = auc_to_plot, family = poisson)
 fit_spline_2 <- gam(n ~ s(num, bs = "ps", k = 4), family = poisson, data = auc_to_plot)
 fit_spline_3 <- gam(n ~ s(num, bs = "ps", k = 5), family = poisson, data = auc_to_plot)
 fit_spline_4 <- gam(n ~ s(num, bs = "ps", k = 6), family = poisson, data = auc_to_plot)
+
+
+
+# fitting the data with random intercept for nested data (article)
+fit_ri <- gam(n ~ s(num, bs = "ps", k = 4) + s(doi, bs= "re"), family = poisson, data = auc_to_plot, method = "REML")
+
+summary(fit_ri)
+AIC(fit_ri)
+
+# check the fit of the three splines
+round(AIC(fit2, fit3, fit4, fit_spline_2, fit_spline_3, fit_spline_4, fit_ri), digits = 1)
 
 # Build a prediction grid
 pred_grid <- data.frame(num = seq(50, 100, length.out = 200))
@@ -93,23 +107,12 @@ pred_grif$df8 <- predict(fit_ri, newdata = pred_grid, type = "response")
 
 
 
-# fitting the data with random intercept for nested data (article)
-fit_ri <- gam(bin_n ~ s(auc, bs = "ps", k = 4) + s(doi, bs = "re"), family = poisson, data = auc_to_plot, method = "REML")
-
-
-# check the fit of the three splines
-round(AIC(fit2, fit3, fit4, fit_spline_2, fit_spline_3, fit_spline_4, fit_ri), digits = 1)
-
-# Reshape to long format so we get a legend
-pred_long <- pivot_longer(pred_grid, cols = c(df2, df3, df4, df5, df6, df7),
-                          names_to = "df", values_to = "fit")
-
 # make the auc distribution plot
-auc_plot <- ggplot(data = auc_to_plot, aes(x = num, y = n)) +
+auc_plot <- ggplot(data = auc_to_plot2, aes(x = num, y = n)) +
   geom_bar(aes(fill = num %in% c(50, 60, 70, 80, 90, 100)),
            stat = 'identity', width = 1, colour = "black") +
   scale_fill_manual(values = c("TRUE" = "#B52B12", "FALSE" = "#FFBDAD"), guide = "none") +
-  geom_line(data = pred_grid, aes(x = num, y = df6), linewidth = 1, linetype = "dashed") +
+  geom_line(data = pred_grid, aes(x = num, y = df7), linewidth = 1, linetype = "dashed") +
   xlab('AUC Value') +
   ylab('Frequency') +
   scale_x_continuous(limits = c(49, 101),
@@ -136,7 +139,7 @@ ggsave(plot = auc_plot,
 # Get residuals - several types available
 auc_res_to_plot <- auc_to_plot %>%
   mutate(
-    fitted = predict(fit4, newdata = ., type = "response"),
+    fitted = predict(fit_spline_3, newdata = ., type = "response"),
     resid_raw = n - fitted)
 
 # Bar plot of residuals
@@ -150,7 +153,7 @@ resid_plot <- ggplot(auc_res_to_plot, aes(x = num, y = resid_raw)) +
   scale_x_continuous(limits = c(49, 101),
                      breaks = c(50, 60, 70, 80, 90, 100),
                      labels = c(0.5, 0.6, 0.7, 0.8, 0.9, 1.0)) +
-  scale_y_continuous(limits = c(-60, 60)) +
+  scale_y_continuous(limits = c(-60, 80)) +
   theme_bw() +
   theme(panel.grid.minor = element_blank())
 
@@ -184,12 +187,18 @@ sens_to_plot = mutate(plot_data,
   ungroup()
 
 
-# Fit the three models
+# Fit the models
 sens_fit2 <- glm(n ~ ns(num, df = 2), data = sens_to_plot, family = poisson)
 sens_fit3 <- glm(n ~ ns(num, df = 3), data = sens_to_plot, family = poisson)
 sens_fit4 <- glm(n ~ ns(num, df = 4), data = sens_to_plot, family = poisson)
 sens_fit5 <- glm(n ~ ns(num, df = 5), data = sens_to_plot, family = poisson)
 sens_fit6 <- glm(n ~ ns(num, df = 6), data = sens_to_plot, family = poisson)
+
+fit_sens_spline_2 <- gam(n ~ s(num, bs = "ps", k = 4), family = poisson, data = sens_to_plot)
+fit_sens_spline_3 <- gam(n ~ s(num, bs = "ps", k = 5), family = poisson, data = sens_to_plot)
+fit_sens_spline_4 <- gam(n ~ s(num, bs = "ps", k = 6), family = poisson, data = sens_to_plot)
+fit_sens_spline_5 <- gam(n ~ s(num, bs = "ps", k = 7), family = poisson, data = sens_to_plot)
+fit_sens_spline_6 <- gam(n ~ s(num, bs = "ps", k = 8), family = poisson, data = sens_to_plot)
 
 # Build a prediction grid
 sens_pred_grid <- data.frame(num = seq(0, 100, length.out = 200))
@@ -198,13 +207,21 @@ sens_pred_grid$df3 <- predict(sens_fit3, newdata = sens_pred_grid, type = "respo
 sens_pred_grid$df4 <- predict(sens_fit4, newdata = sens_pred_grid, type = "response")
 sens_pred_grid$df5 <- predict(sens_fit5, newdata = sens_pred_grid, type = "response")
 sens_pred_grid$df6 <- predict(sens_fit6, newdata = sens_pred_grid, type = "response")
+sens_pred_grid$df7 <- predict(fit_sens_spline_2, newdata = sens_pred_grid, type = "response")
+sens_pred_grid$df8 <- predict(fit_sens_spline_3, newdata = sens_pred_grid, type = "response")
+sens_pred_grid$df9 <- predict(fit_sens_spline_4, newdata = sens_pred_grid, type = "response")
+sens_pred_grid$df10 <- predict(fit_sens_spline_5, newdata = sens_pred_grid, type = "response")
+sens_pred_grid$df11 <- predict(fit_sens_spline_6, newdata = sens_pred_grid, type = "response")
+
+
 
 # check AIC 
-round(AIC(sens_fit2, sens_fit3, sens_fit4, sens_fit5, sens_fit6), digits = 1) # df4 is best fit
+round(AIC(sens_fit2, sens_fit3, sens_fit4, sens_fit5, sens_fit6,
+          fit_sens_spline_2, fit_sens_spline_3, fit_sens_spline_4, fit_sens_spline_5, fit_sens_spline_6), digits = 1)# df4 is best fit
 
 
 # Reshape to long format so we get a legend
-sens_pred_long <- pivot_longer(sens_pred_grid, cols = c(df2, df3, df4),
+sens_pred_long <- pivot_longer(sens_pred_grid, cols = c(df2, df3, df4, df5, df6, df7, df8, df9, df10, df11),
                           names_to = "df", values_to = "fit")
 
 # create the distribution for the sensitivity
@@ -495,9 +512,22 @@ auc_sample_plot_data = plot_data %>%
 auc_sample_plot <- auc_sample_plot_data %>% 
   ggplot(aes(x = num, y = sample)) +
   geom_point()+
-  geom_smooth(method = "lm", data = auc_sample_plot_data %>% filter(num < 71))+
-  geom_smooth(method = "lm", data = auc_sample_plot_data %>% filter(num > 69))+
-  # geom_smooth(method = "loess", se = FALSE)+
+  geom_smooth(method = "loess", se = TRUE)+
+  scale_x_continuous(limits = c(49, 101),
+                     breaks = c(50, 60, 70, 80, 90, 100),
+                     labels = c(0.5, 0.6, 0.7, 0.8, 0.9, 1.0))+
+  scale_y_continuous(limits = c(0,500))+
+  labs(x = "AUC Value",
+       y = "Median Sample Size")+
+  theme_bw() +
+  theme(panel.grid.minor = element_blank())
+
+
+auc_sample_plot_2 <- auc_sample_plot_data %>% 
+  ggplot(aes(x = num, y = sample)) +
+  geom_point()+
+  geom_smooth(method = "lm", data = auc_sample_plot_data %>% filter(num < 71), colour = "red")+
+  geom_smooth(method = "lm", data = auc_sample_plot_data %>% filter(num > 69), colour = "red")+
   scale_x_continuous(limits = c(49, 101),
                      breaks = c(50, 60, 70, 80, 90, 100),
                      labels = c(0.5, 0.6, 0.7, 0.8, 0.9, 1.0))+
@@ -509,11 +539,14 @@ auc_sample_plot <- auc_sample_plot_data %>%
 
 
 auc_sample_plot
+auc_sample_plot_2
+
+auc_sample_plots <- (auc_sample_plot + labs(tag = "A")) / (auc_sample_plot_2 + labs(tag = "B"))
 
 # save the plot
-ggsave(auc_sample_plot, file = "03_figures/auc_sample_plot.jpg",
-       width = 10,
-       height = 8,
+ggsave(auc_sample_plots, file = "03_figures/auc_sample_plot.jpg",
+       width = 8,
+       height = 12,
        dpi = 500)
 
 
