@@ -55,4 +55,6 @@ rsconnect/
 # R data
 /02_data/02_pilot/02_pdfs
 /02_data/03_screening/01_pdfs
+/02_data/03_screening_2/01_pdfs
 /02_data/05_roc_completed
+/02_data/03_screening_2/02_completed

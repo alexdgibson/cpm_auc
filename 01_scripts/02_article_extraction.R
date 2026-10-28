@@ -363,6 +363,12 @@ rayyan_screen <- pubmed_final %>%
   mutate(key = as.numeric(1:nrow(pubmed_final))) %>% 
   select(key, pmid, title, journal, abstract, doi)
 
+# save the file
 write.csv(rayyan_screen, file = "02_data/screening_rayyan.csv", row.names = FALSE)
 
+
+
+
+# gather the missed articles
+load(file = "02_data/article.Rdata")
 

@@ -92,62 +92,62 @@ write.csv(all_screened_clean, file = "02_data/03_screening/04_included_screened.
 # could not get this code to work and may be easier to do by hand
 
 
-# use OpenAlex to download all of the pdfs that are open access
-works <- all_screened_clean$doi
-
-# Fetch in chunks of 50–100
-chunks <- split(works, ceiling(seq_along(works)/100))
-
-# use open alex to get all the open access pdf file download links available
-works_list <- lapply(chunks, function(chunk) {
-  oa_fetch(doi = chunk)
-})
-
-# bind them together
-works <- bind_rows(works_list) %>% filter(pdf_url != "NA")
-
-# list the links
-pdf_urls <- works$pdf_url
-
-# pdf names
-pdf_name <- works$doi |>
-  gsub("^https?://doi.org/", "", x = _) |>
-  gsub("/", "_", x = _)
-
-# Create a vector to store failed URLs
-failed_urls <- character(0)
-
-# download all of the pdfs and continue after errors
-for(i in seq_along(pdf_urls)) {
-  if(!is.na(pdf_urls[i])) {
-    
-    # Build the full path for the PDF
-    file_path <- file.path(out_dir, paste0(pdf_name[i], ".pdf"))
-    
-    # Attempt to download with error handling
-    tryCatch({
-      # Download and save the PDF
-      GET(
-        pdf_urls[i],
-        user_agent("Mozilla/5.0"),
-        config(followlocation = TRUE),
-        write_disk(file_path, overwrite = TRUE)
-      )
-      
-      Sys.sleep(1)  # polite delay
-      
-    }, error = function(e) {
-      # On error, record the failed URL
-      failed_urls <<- c(failed_urls, pdf_urls[i])
-      message("Failed to download: ", pdf_urls[i], " - ", e$message)
-    })
-  }
-}
-
-# Check failed URLs
-if(length(failed_urls) > 0) {
-  message("These URLs failed: ", paste(failed_urls, collapse = ", "))
-}
+# # use OpenAlex to download all of the pdfs that are open access
+# works <- all_screened_clean$doi
+# 
+# # Fetch in chunks of 50–100
+# chunks <- split(works, ceiling(seq_along(works)/100))
+# 
+# # use open alex to get all the open access pdf file download links available
+# works_list <- lapply(chunks, function(chunk) {
+#   oa_fetch(doi = chunk)
+# })
+# 
+# # bind them together
+# works <- bind_rows(works_list) %>% filter(pdf_url != "NA")
+# 
+# # list the links
+# pdf_urls <- works$pdf_url
+# 
+# # pdf names
+# pdf_name <- works$doi |>
+#   gsub("^https?://doi.org/", "", x = _) |>
+#   gsub("/", "_", x = _)
+# 
+# # Create a vector to store failed URLs
+# failed_urls <- character(0)
+# 
+# # download all of the pdfs and continue after errors
+# for(i in seq_along(pdf_urls)) {
+#   if(!is.na(pdf_urls[i])) {
+#     
+#     # Build the full path for the PDF
+#     file_path <- file.path(out_dir, paste0(pdf_name[i], ".pdf"))
+#     
+#     # Attempt to download with error handling
+#     tryCatch({
+#       # Download and save the PDF
+#       GET(
+#         pdf_urls[i],
+#         user_agent("Mozilla/5.0"),
+#         config(followlocation = TRUE),
+#         write_disk(file_path, overwrite = TRUE)
+#       )
+#       
+#       Sys.sleep(1)  # polite delay
+#       
+#     }, error = function(e) {
+#       # On error, record the failed URL
+#       failed_urls <<- c(failed_urls, pdf_urls[i])
+#       message("Failed to download: ", pdf_urls[i], " - ", e$message)
+#     })
+#   }
+# }
+# 
+# # Check failed URLs
+# if(length(failed_urls) > 0) {
+#   message("These URLs failed: ", paste(failed_urls, collapse = ", "))
+# }
 
 
 
