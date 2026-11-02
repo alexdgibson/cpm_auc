@@ -224,7 +224,7 @@ spec_plot <- ggplot(data = spec_to_plot2, aes(x = num, y = n)) +
     linewidth = 1,
     linetype = "dashed"
   ) +
-  xlab('specitivity Value (%)') +
+  xlab('Specitivity Value (%)') +
   ylab('Frequency') +
   scale_x_continuous(
     limits = c(0, 101),
@@ -264,7 +264,7 @@ spec_resid_plot <- ggplot(spec_plot_data, aes(x = num, y = resid_raw)) +
     guide = "none"
   ) +
   geom_hline(yintercept = 0, linewidth = 0.5) +
-  xlab("specitivity Value (%)") +
+  xlab("Specitivity Value (%)") +
   ylab("Residual (observed - expected)") +
   scale_x_continuous(
     limits = c(0, 101),
